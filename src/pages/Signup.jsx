@@ -24,7 +24,7 @@ export default function Signup() {
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-      <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg">
+      <div className="bg-white w-full sm:w-96 md:w-1/3 lg:w-1/4 xl:w-1/5 p-8 rounded-2xl shadow-lg">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Create Account 🚀</h2>
         <p className="text-center text-gray-500 text-sm mb-6">
           Already registered?{" "}

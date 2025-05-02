@@ -4,16 +4,18 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 function Login() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [redirect, setRedirect] = useState(false);
 
+  // Handle login form submission
   const handleLogin = (data) => {
     const storedData = JSON.parse(localStorage.getItem("signUpData"));
 
     if (storedData) {
       const user = storedData.find(user => user.email === data.email);
       if (user && user.password === data.password) {
-        setRedirect(true);
+        toast.success("✅ Login successful!");
+        setRedirect(true);  // Mark the login as successful
       } else {
         toast.error("❌ Invalid email or password");
       }
@@ -22,15 +24,17 @@ function Login() {
     }
   };
 
-  // ✅ Show toast once when redirect becomes true
+  // Use effect to handle redirection after successful login
   useEffect(() => {
     if (redirect) {
-      toast.success("✅ Login successful!");
+      reset();  // Reset form fields after successful login
     }
-  }, [redirect]);
+  }, [redirect, reset]);
 
-  // ✅ Redirect if login is successful
-  if (redirect) return <Navigate to="/home" />;
+  // Redirect to home page after login success
+  if (redirect) {
+    return <Navigate to="/home" />;
+  }
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
@@ -74,7 +78,11 @@ function Login() {
           </div>
 
           {/* Submit */}
-          <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300">
+          <button 
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-all duration-300"
+            disabled={redirect} // Disable the button once logged in
+          >
             Log In
           </button>
         </form>
